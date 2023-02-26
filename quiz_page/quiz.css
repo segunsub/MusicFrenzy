@@ -4,21 +4,41 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    margin: 0;
 
     background-color: #EB1127;
 }
 
-.info{
+.info {
+    width: 100vw;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin-top: 45px;
 }
 
-.logo-restart{
-    
+.logo-restart {
+    margin-left: 60px;
 }
-img{
+
+.logo{
+margin-bottom: 30px;
+}
+
+.score-wrapper{
+    color: white;
+    margin-right:60px;
+}
+
+#score {
+    margin: 0;
+}
+
+#high-score {
+    margin: 0;
+}
+
+img {
     width: 50px;
 }
 
@@ -33,7 +53,9 @@ img{
 
 .btn{
     background-color: #FD6354;
+    border-radius: 20px;
     border: none;
     height: 60px;
+    margin-bottom: 15px;
 }
 
