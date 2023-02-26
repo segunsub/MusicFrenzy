@@ -1,0 +1,51 @@
+body {
+    width: 100vw;
+    height:100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #142455 !important;
+}
+
+.score-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white
+}
+
+.score-card-wrapper {
+    width: 700px;
+    height: auto;
+}
+
+.score-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    border: none;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.25);
+    padding: 15px;
+    color: white;
+}
+
+#song-name{
+    margin: 0;
+}
+
+#time{
+    font-size: 25px;
+}
+
+#album-cover {
+    width: 100px;
+}
+
+#check {
+    width: 35px;
+}
