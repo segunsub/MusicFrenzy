@@ -8,7 +8,7 @@ const categoryBtn = document.querySelectorAll(".btn-style")
 const categoryTitle = document.querySelector(".category-title")
 const songChoices = document.querySelectorAll(".options")
 let correctChoices = []
-
+let Choices;
 
 //orrectChoicess= correctChoices.genre.hiphop
 
@@ -42,25 +42,20 @@ function changeText () {
             quizPage.style.display = "flex";
             categoryTitle.innerText = `${node.innerText}`;
             clickedON = node.id;
-            //const pickedCategory = genre[]
             pickedGenre = node.id;
             genreValues= Object.keys(genre[pickedGenre])
-            correctChoices= shuffleArray(genreValues)
-            //console.log(allKeys.Object.keys())
+            Choices= shuffleArray(genreValues)
         })
     })
 }
 
 function shuffleArray(genreValues){
-    for(let i=genreValues.length-1;i>0;i--){
-        const j= Math.floor(Math.random() * (i +1));
+    for(let i = genreValues.length - 1;i>0;i--){
+        const j = Math.floor(Math.random() * (i +1));
         [genreValues[i], genreValues[j]] = [genreValues[j], genreValues[i]]
     }
     return genreValues;
 }
-// function FillIn(){
-
-// }
 
 const genre = {
    "hiphop": {
@@ -98,7 +93,16 @@ const genre = {
        "KU LO SA": "/Resources/rema.mp3",
     },
 }
-//const allKeys = Object.keys(genre[pickedGenre])
 
-// console.log(genre.hiphop.Kendrick)
-// {/* <iframe autoplay src="https://open.spotify.com/embed/track/2KMPEI406H9G8UqiWDfuTK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> */}
+// let counter = 0
+// function fillIn () {
+//     if(counter<4){
+//     songChoices.forEach(button => {
+//         debugger;
+//         button.innerText= Choices[counter]
+//         counter++
+//         })}else{
+//             return
+//         }
+//     }
+// fillIn()
