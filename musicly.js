@@ -34,3 +34,25 @@ function changeText () {
         })
     })
 }
+
+
+let genre= {
+    hiphop: {
+        Humble: "audio",
+        Ozone: "audio",
+        // Breakingbad: <iframe src="https://open.spotify.com/embed/track/2KMPEI406H9G8UqiWDfuTK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        breakingBad: 
+            "audio",
+        Demons: "audio",
+    },
+    rb: {
+        ToYou: "audio",
+        WalkedIn: "audio"
+    },
+    indies: {},
+    tophits:{},
+    throwback:{},
+    afrobeats:{},
+}
+console.log(genre.hiphop.Kendrick)
+{/* <iframe autoplay src="https://open.spotify.com/embed/track/2KMPEI406H9G8UqiWDfuTK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> */}
