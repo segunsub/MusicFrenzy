@@ -7,10 +7,10 @@ const startButton = document.getElementById("start-btn")
 const categoryBtn = document.querySelectorAll(".btn-style")
 const categoryTitle = document.querySelector(".category-title")
 const songChoices = document.querySelectorAll(".options")
-const correctChoices = []
+let correctChoices = []
 
 
-
+//orrectChoicess= correctChoices.genre.hiphop
 
 
 //correctChoices.push(genre.)
@@ -44,13 +44,20 @@ function changeText () {
             clickedON = node.id;
             //const pickedCategory = genre[]
             pickedGenre = node.id;
-
+            genreValues= Object.keys(genre[pickedGenre])
+            correctChoices= shuffleArray(genreValues)
             //console.log(allKeys.Object.keys())
         })
     })
 }
 
-
+function shuffleArray(genreValues){
+    for(let i=genreValues.length-1;i>0;i--){
+        const j= Math.floor(Math.random() * (i +1));
+        [genreValues[i], genreValues[j]] = [genreValues[j], genreValues[i]]
+    }
+    return genreValues;
+}
 // function FillIn(){
 
 // }
@@ -92,8 +99,6 @@ const genre = {
     },
 }
 //const allKeys = Object.keys(genre[pickedGenre])
-for(let i=0;i<=4;i++){
-    correctChoices.push(genre.pickedGenre[i])
-}
+
 // console.log(genre.hiphop.Kendrick)
 // {/* <iframe autoplay src="https://open.spotify.com/embed/track/2KMPEI406H9G8UqiWDfuTK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> */}
