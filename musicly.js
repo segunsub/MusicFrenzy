@@ -49,10 +49,23 @@ let genre= {
         ToYou: "audio",
         WalkedIn: "audio"
     },
-    indies: {},
-    tophits:{},
+    indies: {
+        drugs:
+
+    },
+    tophits:{
+        BoysALiar: "audio",
+        KillBill: "audio"
+
+    },
     throwback:{},
-    afrobeats:{},
+    afrobeats:{
+        PartyWithaJagaban: "audio",
+        ComeWeBillEh: "audio",
+        LastLast: "audio",
+        KULOSA: "audio",
+f
+    },
 }
 console.log(genre.hiphop.Kendrick)
 {/* <iframe autoplay src="https://open.spotify.com/embed/track/2KMPEI406H9G8UqiWDfuTK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> */}
