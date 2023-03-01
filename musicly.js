@@ -2,18 +2,21 @@ const startPage = document.querySelector(".start-page")
 const categoriesPage = document.querySelector(".categories-page")
 const quizPage = document.querySelector(".quiz-page")
 const finalPage = document.querySelector(".final-page")
-
+const restart= document.querySelector(".restart")
 const startButton = document.getElementById("start-btn")
 const categoryBtn = document.querySelectorAll(".btn-style")
 const categoryTitle = document.querySelector(".category-title")
 const quizOptions = document.querySelectorAll(".song-choices")
-
+let arr= []
+const chosenSong= ''
+let picked= ''
+let song= ''
 const genre = {
     "Hip Hop": {
         "Humble": "/Resources/rema.mp3",
         "Ozone": "/Resources/rema.mp3",
         "BreakingBad": "/Resources/rema.mp3",
-        "Demons": "/Resources/rema.mp3",
+        "California Love": "/Resources/rema.mp3",
     },
     "R&B": {
         "To You": "/Resources/rema.mp3",
@@ -59,6 +62,11 @@ startButton.addEventListener('mouseout', () => {
     startButton.style.width = ""
     startButton.style.height = ""
 })
+restart.addEventListener('click', () => {
+    startPage.style.display = "flex";
+    categoriesPage.style.display = "none";
+    
+})
 
 changeText();
 
@@ -69,8 +77,15 @@ function changeText() {
             quizPage.style.display = "flex";
             categoryTitle.innerText = `${node.innerText}`;
             pickRandom();
-            fillIn();
-            playSong("./Resources/rema.mp3")
+            fillIn(); 
+            correctChoice();
+            song = './Resources/' + correctChoice() + '.mp3';
+            playSong(`${song}`) 
+            pickedSong()
+            isItCorrect()
+            
+
+            //playSong("./Resources")
         })
     })
 }
@@ -83,6 +98,7 @@ getGenre()
 
 function getMusicList() {
     const songs = genre[getGenre()];
+    arr= Object.keys(songs);
     return Object.keys(songs);
 };
 
@@ -105,4 +121,46 @@ function pickRandom() {
     const randomIndex = Math.floor(Math.random() * getMusicList().length);
     const song = arr[randomIndex];
     return song;
+}
+let right= ''
+function correctChoice(){
+    const randomCorrect= Math.floor(Math.random() * arr.length )
+    right= arr[randomCorrect]
+    return arr[randomCorrect];
+}
+
+function pickedSong() {
+    let flag = false
+    quizOptions.forEach(button => {
+        button.setAttribute("id", button.innerText)
+        button.addEventListener('click', () => {
+        picked= `${button.innerText}`
+        if (picked=== right){
+            button.style.backgroundColor= 'green'
+            document.getElementById('score-number').innerText = '100'
+            quizOptions.forEach(button => {
+                if (button.id !== picked) button.disabled = true
+            })
+        }else{
+            button.style.backgroundColor= 'blue'
+            button.style.backgroundColor= 'red'
+            quizOptions.forEach(button => {
+                if (button.id !== picked) button.disabled = true
+            })
+        }
+        })  
+    })
+  
+    
+}
+
+
+function isItCorrect(){
+    if(`${button.innerText}` === right){
+        button.style.backgroundColor = 'green'
+        
+    }else{
+        button.style.backgroundColor= 'blue'
+        button.style.backgroundColor= 'green'
+    }
 }
