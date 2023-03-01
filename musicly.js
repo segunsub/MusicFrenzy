@@ -6,14 +6,42 @@ const finalPage = document.querySelector(".final-page")
 const startButton = document.getElementById("start-btn")
 const categoryBtn = document.querySelectorAll(".btn-style")
 const categoryTitle = document.querySelector(".category-title")
-const songChoices = document.querySelectorAll(".options")
-let correctChoices = []
-let Choices;
+const quizOptions = document.querySelectorAll(".song-choices")
 
-//orrectChoicess= correctChoices.genre.hiphop
-
-
-//correctChoices.push(genre.)
+const genre = {
+    "Hip Hop": {
+        "Humble": "/Resources/rema.mp3",
+        "Ozone": "/Resources/rema.mp3",
+        "BreakingBad": "/Resources/rema.mp3",
+        "Demons": "/Resources/rema.mp3",
+    },
+    "R&B": {
+        "To You": "/Resources/rema.mp3",
+        "Walked In": "/Resources/rema.mp3",
+        "Barking": "/Resources/rema.mp3",
+    },
+    "Indies": {
+        "Drugs": "/Resources/rema.mp3",
+        "Promise": "/Resources/rema.mp3",
+        "One in a Million": "/Resources/rema.mp3",
+        "That Thresh": "/Resources/rema.mp3",
+    },
+    "Top Hits": {
+        "BoysALiar": "/Resources/rema.mp3",
+        "KillBill": "/Resources/rema.mp3",
+    },
+    "Throwbacks": {
+        "Just The Two of Us": "/Resources/rema.mp3",
+        "Crazy": "/Resources/rema.mp3",
+        "Aint No Sunshine": "/Resources/rema.mp3",
+    },
+    "Afrobeats": {
+        "Party With a Jagaban": "/Resources/rema.mp3",
+        "Come We Bill Eh": "/Resources/rema.mp3",
+        "Last Last": "/Resources/rema.mp3",
+        "KU LO SA": "/Resources/rema.mp3",
+    },
+};
 
 startButton.addEventListener('click', () => {
     startPage.style.display = "none";
@@ -31,78 +59,50 @@ startButton.addEventListener('mouseout', () => {
     startButton.style.width = ""
     startButton.style.height = ""
 })
+
 changeText();
 
-let clickedON;
-let pickedGenre;
-function changeText () {
+function changeText() {
     categoryBtn.forEach(node => {
         node.addEventListener('click', () => {
             categoriesPage.style.display = "none";
             quizPage.style.display = "flex";
             categoryTitle.innerText = `${node.innerText}`;
-            clickedON = node.id;
-            pickedGenre = node.id;
-            genreValues= Object.keys(genre[pickedGenre])
-            Choices= shuffleArray(genreValues)
+            pickRandom();
+            fillIn();
+            playSong("./Resources/rema.mp3")
         })
     })
 }
 
-function shuffleArray(genreValues){
-    for(let i = genreValues.length - 1;i>0;i--){
-        const j = Math.floor(Math.random() * (i +1));
-        [genreValues[i], genreValues[j]] = [genreValues[j], genreValues[i]]
-    }
-    return genreValues;
+function getGenre() {
+    return categoryTitle.innerText
+};
+
+getGenre()
+
+function getMusicList() {
+    const songs = genre[getGenre()];
+    return Object.keys(songs);
+};
+
+function playSong(songFile) {
+    const audio = new Audio(songFile);
+    audio.play();
 }
 
-const genre = {
-   "hiphop": {
-        "Humble": "/Resources/rema.mp3",
-        "Ozone": "/Resources/rema.mp3",
-        "breakingBad": "/Resources/rema.mp3",
-        "Demons": "/Resources/rema.mp3",
-    },
-   "rb": {
-        "To You": "/Resources/rema.mp3",
-        "Walked In":"/Resources/rema.mp3",
-        "Barking": "/Resources/rema.mp3",
-    },
-    "indies": {
-        "drugs": "/Resources/rema.mp3",
-        "Promise": "/Resources/rema.mp3",
-        "One in a Million": "/Resources/rema.mp3",
-        "That Thresh":"/Resources/rema.mp3",
-    },
-    "tophits":{
-        "BoysALiar": "/Resources/rema.mp3",
-        "KillBill": "/Resources/rema.mp3",
-    },
-    "throwback":{
-        "Just The Two of Us": "/Resources/rema.mp3",
-       // "Crazy": "/Resources/rema.mp3",
-        "Party up": "/Resources/rema.mp3",
-        "California Love": "/Resources/rema.mp3",
-        "Doo wop": "/Resources/rema.mp3",
-    },
-    "afrobeats":{
-       "Party With a Jagaban": "/Resources/rema.mp3",
-       "Come We Bill Eh": "/Resources/rema.mp3",
-       "Last Last": "/Resources/rema.mp3",
-       "KU LO SA": "/Resources/rema.mp3",
-    },
+function fillIn() {
+    let counter = 0;
+    quizOptions.forEach(button => {
+        let music = getMusicList()[counter];
+        button.innerText = `${music}`;
+        counter++;
+        if (counter === 4) return;
+    })
 }
 
-// let counter = 0
-// function fillIn () {
-//     if(counter<4){
-//     songChoices.forEach(button => {
-//         debugger;
-//         button.innerText= Choices[counter]
-//         counter++
-//         })}else{
-//             return
-//         }
-//     }
-// fillIn()
+function pickRandom() {
+    const randomIndex = Math.floor(Math.random() * getMusicList().length);
+    const song = arr[randomIndex];
+    return song;
+}
