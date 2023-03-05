@@ -107,12 +107,13 @@ function playSong(songFile) {
 let currentAudio;
 
 function changeSong() {
-    const song = './Resources/' + correctChoice() + '.mp3';
-    if (currentAudio) {
+    const song = './Resources/' + right + '.mp3';
+   // if (currentAudio) {
         currentAudio.pause();
-    }
-    currentAudio = playSong(song);
+  //  }
+  //  currentAudio = playSong(song);
 }
+
 
 
 function fillIn() {
@@ -145,7 +146,7 @@ function correctChoice(){
 }
 
 function pickedSong() {
-    let flag = false;
+    //let flag = false;
     quizOptions.forEach(button => {
       button.setAttribute('id', button.innerText);
       button.addEventListener('click', () => {
@@ -250,32 +251,3 @@ function changeText() {
     })
 }
 
-// function changeText() {
-//     categoryBtn.forEach(node => {
-//         node.addEventListener('click', () => {
-//             if (round > 4) {
-//                 // End the game if we've played 4 rounds
-//                 quizPage.style.display = "none";
-//                 finalPage.style.display = "flex";
-//             } else {
-//                 categoriesPage.style.display = "none";
-//                 quizPage.style.display = "flex";
-//                 categoryTitle.innerText = `${node.innerText}`;
-//                 cat= `${node.innerText}`;
-//                 fillIn(); 
-//                 correctChoice();
-//                 song = './Resources/' + correctChoice() + '.mp3';
-//                 playSong(`${song}`) 
-//                 pickedSong()
-//                 quizOptions.forEach(button => {
-//                     let music = options[counter];
-//                     button.innerText = `${music}`;
-//                     counter++;
-//                     if (counter === 4) return;
-//                 })
-//                 round++; // Increment the round number
-                
-//             }
-//         })
-//     })
-// }

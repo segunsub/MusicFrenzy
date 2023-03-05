@@ -1,33 +1,39 @@
-const startPage = document.querySelector(".start-page")
-const categoriesPage = document.querySelector(".categories-page")
-const quizPage = document.querySelector(".quiz-page")
-const finalPage = document.querySelector(".final-page")
-const restart= document.querySelector(".restart")
-const startButton = document.getElementById("start-btn")
-const categoryBtn = document.querySelectorAll(".btn-style")
-const categoryTitle = document.querySelector(".category-title")
-const again= document.querySelector('.arrow')
+const startPage = document.querySelector(".start-page");
+const categoriesPage = document.querySelector(".categories-page");
+const quizPage = document.querySelector(".quiz-page");
+const finalPage = document.querySelector(".final-page");
+const restart= document.querySelector(".restart");
+const startButton = document.getElementById("start-btn");
+const categoryBtn = document.querySelectorAll(".btn-style");
+const categoryTitle = document.querySelector(".category-title");
+const again= document.querySelector('.arrow');
 const restartButton = document.querySelector('.arrow');
-const getScore = document.getElementById("score-number")
-
-
-const quizOptions = document.querySelectorAll(".song-choices")
-let arr= []
-let chosenSong= ''
-let picked= ''
-let songs= ''
-let right= ''
-let randomarr= []
+const getScore = document.getElementById("score-number");
+const roundSpan = document.getElementById("round-number");
+const maxRounds = 4;
+let currentRound = 1;
+const quizOptions = document.querySelectorAll(".song-choices");
+const finalScore = document.getElementById("final-score");
+const message = document.createElement('p')
+let arr= [];
+//let chosenSong= '';
+let picked= '';
+let songs= '';
+let right= '';
+let randomarr= [];
 let round = 1;
-let cat= ''
-let first= ''
-let score = 0
+let cat= '';
+let first= '';
+let score = 0;
+let chosenSongs = [];
+let playedSongs= []
 const genre = {
     "Hip Hop": {
         "Humble": "/Resources/rema.mp3",
         "Ozone": "/Resources/rema.mp3",
-        "Breaking Bad": "/Resources/rema.mp3",
-        "Demon": "/Resources/rema.mp3",
+        "BreakingBad": "/Resources/rema.mp3",
+       // "Welcome to the party": "/Resources/rema.mp3",
+        "Come We Bill Ehh": "bill",
     },
     "R&B": {
         "To You": "/Resources/rema.mp3",
@@ -56,7 +62,7 @@ const genre = {
         "KU LO SA": "/Resources/rema.mp3",
     },
 };
-
+changeText();
 startButton.addEventListener('click', () => {
    // resetGame();
     startPage.style.display = 'none';
@@ -76,15 +82,16 @@ startButton.addEventListener('mouseout', () => {
 })
 
 function getMusicList() {
-	let songs = genre[categoryTitle.innerText];
-    noRepeats= genre[categoryTitle.innerText]
-  return Object.keys(songs);
-};
+    const songs = genre[categoryTitle.innerText];
+    const options = Object.keys(songs);
+    // Shuffle the options array
+    options.sort(() => Math.random() - 0.5);
+    return options;
+}
 
 function fillIn() {
     let counter = 0;
     let options = getMusicList();
-    options.sort(() => Math.random() - 0.5); // Shuffle the array
     quizOptions.forEach(button => {
         let music = options[counter];
         button.innerText = `${music}`;
@@ -92,174 +99,157 @@ function fillIn() {
         if (counter === 4) return;
     })
 }
+// function fillIn() {
+//     const options = getMusicList();
+//     quizOptions.forEach((button, index) => {
+//         button.innerText = options[index];
+//     });
+// }
+
 
 function pickRandom() {
-    const options = getMusicList().filter(option => !randomarr.includes(option));
-    if (options.length === 0) {
-        randomarr = [];
+    const songs = getMusicList();
+    let randomIndex = Math.floor(Math.random() * songs.length);
+    let song = songs[randomIndex];
+    while (chosenSongs.includes(song)) {
+        randomIndex = Math.floor(Math.random() * songs.length);
+        song = songs[randomIndex];
     }
-    const randomIndex = Math.floor(Math.random() * options.length);
-    const song = options[randomIndex];
-    randomarr.push(song);
+    chosenSongs.push(song);
+    if (chosenSongs.length === songs.length) {
+        chosenSongs = [];
+    }
     return song;
-}
-
-
+    // let randomIndex;
+    // do {
+    //   randomIndex = Math.floor(Math.random() * songs.length);
+    // } while (playedSongs.includes(randomIndex));
+  
+    // playedSongs.push(randomIndex);
+    // return songs[randomIndex];
+  }
+  
 function correctChoice(){
     right = pickRandom()
 }
 let audio= ''
 function playSong() {
- audio = new Audio('../CroppedSongs/' + right + '.mp3');
+//audio.pause()
+console.log(right,'this is right')
+audio = new Audio('./Resources/' + right + '.mp3');
 audio.play();
 }
 
-// function check() {
-//     if (picked === right) {
-//         button.style.backgroundColor = 'green';
-//         score += 100;
-//         getScore.innerText = score;
-//     }
-// }
-function checkAnswer(event) {
-    const userChoice = event.target.innerHTML;
-    if (userChoice === right) {
-      event.target.classList.add('correct');
-      message.textContent = 'Correct!';
-      score++;
-    } else {
-      event.target.classList.add('incorrect');
-      message.textContent = 'Wrong!';
-    }
-  
-    // Clear options for next round
-    options.innerHTML = '';
-  
-    // Check if current round has ended
-    if (currentIndex === songsPerRound - 1) {
-      // Show transition message
-      message.textContent = `Moving on to Round ${currentLevel + 1}...`;
-  
-      // Wait for transition duration
-      setTimeout(() => {
-        // Start next round
-        currentLevel++;
-        currentIndex = 0;
-        right = chooseRandomSong();
-        songs = shuffle(songs);
-        songs.splice(songs.indexOf(right), 1);
-        options.innerHTML = renderOptions();
-        song.src = `songs/${right}.mp3`;
-        message.textContent = `Round ${currentLevel}`;
-        roundCounter.textContent = `Round ${currentLevel}`;
-      }, transitionDuration);
-    } else {
-      // Move on to next song in current round
-      currentIndex++;
-      right = chooseRandomSong();
-      songs.splice(songs.indexOf(right), 1);
-      options.innerHTML = renderOptions();
-      song.src = `songs/${right}.mp3`;
-    }
-  
-    // Update score
-    scoreCounter.textContent = `Score: ${score}/${currentLevel}`;
-  }
-  
 
 function pickedSong() {
     quizOptions.forEach(button => {
         button.setAttribute('id', button.innerText);
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
         picked = `${button.innerText}`;
-        //if (button.id !== picked || picked !== '') button.disabled = true;
+        //const pause= await audio.pause()
+        if (audio.paused) {
+
             if (picked === right) {
-                //button.style.backgroundColor = 'green';
+                //  setTimeout(() => {
+                //   message.remove();
+                    nextRound();
+               //  }, 1000);
+            
+                // Change background color of chosen option to green
+                button.style.backgroundColor = 'green';
                 score += 100;
                 getScore.innerText = score;
-                audio.pause()
-                nextRound()
-
+               
+            
+                // setTimeout(() => {
+                //     nextRound();
+                // }, 1000);
+            } 
+    else {
+                // Change background color of chosen option to red
+                button.style.backgroundColor = 'red';
+            
+                // Find and highlight the correct answer
+                quizOptions.forEach(option => {
+                    if (option.innerText === right) {
+                        option.style.backgroundColor = 'green';
+                    }
+                });
+            
+                // Add an error message
+                const message = document.createElement('p');
+                message.innerText = 'Wrong answer, try again!';
+                message.classList.add('error');
+                quizPage.appendChild(message);
+            
+                setTimeout(() => {
+                    message.remove();
+                    quizOptions.forEach(option => {
+                        option.disabled = false;
+                        option.style.backgroundColor = '';
+                    });
+                }, 1000);
             }
+    
+        }
+        else {
+            audio.pause()
+            /*audio.load(); */
+        }
+
+    
+        
         })
-        fillIn()
-        // add a transition class to the quiz page to trigger the opacity transition
-quizPage.classList.add('transition');
-
-// wait for 500 milliseconds (or any duration you want) before removing the transition class
-setTimeout(() => {
-    quizPage.classList.remove('transition');
-}, 500);
-
     })
 }
-
-function playRound() {
-    fillIn();
+  
+  function nextRound() {
+    // Update round number
+    roundSpan.textContent = `Round ${currentRound}`;
+    
+  
+    // Reset button colors
+    quizOptions.forEach((button) => {
+      button.style.backgroundColor = "";
+      //button.disabled = false;
+    });
+  
+    // Pick new random song and play it
     correctChoice();
     playSong();
     pickedSong();
-}
-
-function nextRound(){
-    correctChoice()
-    playSong()
-    removeSongOptionEventListener() // Remove event listener from previous round
-    pickedSong()
+  }
+  
+  function endGame() {
+    // Hide quiz page and show final page
+    quizPage.style.display = "none";
+    finalPage.style.display = "flex";
+  
+    // Display final score
     
-    round++
-    let roundText = `Round ${round}`
-    setTimeout(function(){ 
-        document.querySelector(".round-text").textContent = roundText
-        document.querySelector(".quiz-page").classList.add('fade-in');
-        document.querySelector(".quiz-page").style.display= "flex";
-        setTimeout(function(){
-            document.querySelector(".quiz-page").classList.remove('fade-in');
-        }, 1000);
-    }, 1000);
-}
+    finalScore.textContent = score;
+  }
 
 
-changeText();
-
-  function changeText() {
+// function nextRound(){
+//     correctChoice()
+//     playSong()
+//     pickedSong()
+   
+// }
+function changeText() {
     categoryBtn.forEach(node => {
         node.addEventListener('click', () => {
             categoriesPage.style.display = "none";
             quizPage.style.display = "flex";
             categoryTitle.innerText = `${node.innerText}`;
             cat = `${node.innerText}`;
+            //roundSpan.textContent = `Round ${currentRound}`;
             fillIn();
             correctChoice();
-            playSong();
-            pickedSong();
-            // Add the current round to the transition message
-            quizPage.querySelector('.transition').innerText = `Round ${round}`;
+            playSong()
+            pickedSong()
+
         })
     })
 }
-
-
-
-
-
-
-function resetGame() {
-    round = 1;
-    score = 0;
-    chosenSong = '';
-    picked = '';
-    songs = '';
-    right = '';
-    randomarr = [];
-    getScore.innerText = score;
-    quizOptions.forEach(button => {
-        button.disabled = false;
-        button.style.backgroundColor = '';
-    });
-}
-
-//   restart.addEventListener('click', () => {
-//     finalPage.style.display = "none";
-//     categoriesPage.style.display = "flex";
-//   });
