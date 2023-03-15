@@ -129,7 +129,8 @@ startButton.addEventListener("click", () => {
 
     } else {
       // Change background color of chosen option to red
-      score -= 100;
+      //just dont give points
+      if(score >= 1)score -= 100
       getScore.innerText = score;
       e.target.style.backgroundColor = "red";
       
