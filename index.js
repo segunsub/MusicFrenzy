@@ -15,6 +15,7 @@ const maxRounds = 5;
 let currentRound = 1;
 const finalScore = document.getElementById("final-score");
 const message = document.createElement("p");
+const quizAudio = document.getElementById('quizaudio')
 //let chosenSong= '';
 let songs = "";
 let round = 1;
@@ -173,14 +174,13 @@ startButton.addEventListener("click", () => {
     return song;
   }
   function playSong(rightSong) {
-    const audio = new Audio("./Resources/" + rightSong + ".mp3");
-    audio.play();
-    return audio
+    quizAudio.src = "./Resources/" + rightSong + ".mp3"
+    quizAudio.play();
+    return quizAudio
   }
   function nextRound() {
     // Update round number
     roundSpan.textContent = `Round ${currentRound}`;
-  
     // Pick new random song and play it
     rightSong = correctChoice();
     currentSong = playSong(rightSong);
