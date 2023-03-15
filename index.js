@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
 const startPage = document.querySelector(".start-page");
 const categoriesPage = document.querySelector(".categories-page");
 const finalPage= document.querySelector(".final-page");
@@ -17,6 +19,7 @@ const finalScore = document.getElementById("final-score");
 const message = document.createElement("p");
 const quizAudio = document.getElementById('quizaudio')
 //let chosenSong= '';
+console.log(process.env.S3_BUCKET)
 let songs = "";
 let round = 1;
 let cat = "";
