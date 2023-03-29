@@ -24,43 +24,47 @@ let score = 0;
 let chosenSongs = [];
 let playedSongs = [];
 let rightSong ,currentSong 
+const songMapping = {
+  'Top Hits' : 'all',
+  'Rap' : 'rap',
+  'POP': 'pop',
+  'R&B': 'rb',
+  'Rock': 'rock',
+  'Country': 'country'
+}
+const musicList = {
+  "Humble": "/Resources/rema.mp3",
+  "Ozone": "/Resources/rema.mp3",
+  "BreakingBad": "/Resources/rema.mp3",
+  "Come We Bill Ehh": "bill",
+  "Spread Thin": "/Resources/rema.mp3",
+  "Rehab": "/Resources/rema.mp3",
+  "Killing Me": "/Resources/rema.mp3",
+  "Kill Bill": "/Resources/rema.mp3",
+  "Grape": "/Resources/rema.mp3",
+  "Creep": "/Resources/rema.mp3",
+  "Fuck The World": "/Resources/rema.mp3",
+  "In The End": "/Resources/rema.mp3",
+  "California Love": "/Resources/rema.mp3",
+  "Kill Bill": "/Resources/rema.mp3",
+  "Welcome to the party": "/Resources welcomeToTheParty.mp3",
+  "Munch": "/Resources/Munch.mp3",
+  "Just The Two of Us": "/Resources/rema.mp3",
+  "Crazy": "/Resources/rema.mp3",
+  "That Thing": "/Resources/rema.mp3",
+  "Beautiful Morning": "/Resources/rema.mp3",
+  "Party With a Jagaban": "/Resources/rema.mp3",
+  "Come We Bill Ehh": "/Resources/rema.mp3",
+  "Last Last": "/Resources/last-last.mp3",
+  "KU LO SA": "/Resources/Kulosa.mp3"
+}
 const genre = {
-  "Hip Hop": {
-    "Humble": "/Resources/rema.mp3",
-    "Ozone": "/Resources/rema.mp3",
-    "BreakingBad": "/Resources/rema.mp3",
-    "Come We Bill Ehh": "bill",
-  },
-  "R&B": {
-    "Spread Thin": "/Resources/rema.mp3",
-    "Rehab": "/Resources/rema.mp3",
-    "Killing Me": "/Resources/rema.mp3",
-    "Kill Bill": "/Resources/rema.mp3",
-  },
-  "Suprise": {
-    "Grape": "/Resources/rema.mp3",
-    "Creep": "/Resources/rema.mp3",
-    "Fuck The World": "/Resources/rema.mp3",
-    "In The End": "/Resources/rema.mp3",
-  },
-  "Top Hits": {
-    "California Love": "/Resources/rema.mp3",
-    "Kill Bill": "/Resources/rema.mp3",
-    "Welcome to the party": "/Resources welcomeToTheParty.mp3",
-    "Munch": "/Resources/Munch.mp3"
-  },
-  "Throwbacks": {
-    "Just The Two of Us": "/Resources/rema.mp3",
-    "Crazy": "/Resources/rema.mp3",
-    "That Thing": "/Resources/rema.mp3",
-    "Beautiful Morning": "/Resources/rema.mp3",
-  },
-  "Afrobeats": {
-    "Party With a Jagaban": "/Resources/rema.mp3",
-    "Come We Bill Ehh": "/Resources/rema.mp3",
-    "Last Last": "/Resources/last-last.mp3",
-    "KU LO SA": "/Resources/Kulosa.mp3",
-  },
+  "Top Hits": ["Humble","Ozone","BreakingBad","Come We Bill Ehh"],
+  "Rap": ["Spread Thin","Rehab","Killing Me","Grape","Creep"],
+  "POP": [],
+  "R&B": [],
+  "Rock": [],
+  "Country": [],
 };
 startButton.addEventListener("click", () => {
     // resetGame();
@@ -91,10 +95,10 @@ startButton.addEventListener("click", () => {
     categoriesPage.style.display = "none"
     quizPage.style.display = "flex"
     categoryTitle.innerText = `${e.innerText}`
+    genreFunc(e.innerText)
     cat = `${e.innerText}`
     rightSong = correctChoice()
     currentSong = playSong(rightSong);
-    fillIn()
   }
   function fillIn() {
     let options = getMusicList();
@@ -108,10 +112,10 @@ startButton.addEventListener("click", () => {
   }
   function getMusicList() {
     const songs = genre[categoryTitle.innerText];
-    const options = Object.keys(songs);
+    console.log(genre,'music list')
     // Shuffle the options array
-    options.sort(() => Math.random() - 0.5);
-    return options;
+    songs.sort(() => Math.random() - 0.5);
+    return songs;
   }
   const musicOption = (e) => {
     if (e.target.innerText === rightSong) {
@@ -201,3 +205,40 @@ startButton.addEventListener("click", () => {
       currentSong.pause()
     }
   }
+function genreFunc(e) {
+  const result = musicGallery(songMapping[e],4,'month')
+  result.then(res => {
+    const resultArray = []
+    res.chart_items.forEach(result => {
+      resultArray.push(result.item.full_title)
+    })
+    fillSongBtn(resultArray)
+    genre[e] = resultArray
+  })
+}
+function fillSongBtn(resultArray) {
+  resultArray.forEach((music) => {
+    const musicChoices = document.createElement("button");
+    musicChoices.classList = ["song-choices btn btn-danger btn-lg btn-block"]
+    musicChoices.addEventListener('click',musicOption,{once: true})
+    musicChoices.innerText = `${music}`;
+    optionsList.appendChild(musicChoices)
+  });
+}
+// musicGallery('rap',4,'month').then(res => console.log(res))
+function musicGallery(genre,page,period) {
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '--',
+      'X-RapidAPI-Host': 'genius-song-lyrics1.p.rapidapi.com'
+    }
+  };
+  
+  const result = fetch(`https://genius-song-lyrics1.p.rapidapi.com/chart/songs/?time_period=${period}&chart_genre=${genre}&per_page=${page}&page=1`, options)
+    .then(response => response.json())
+    .then(response => response)
+    .catch(err => console.error(err));
+
+ return result
+}
